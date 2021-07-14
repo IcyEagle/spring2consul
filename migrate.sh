@@ -70,12 +70,8 @@ for profile in $PROFILES; do
     folder="${file%%.*}-${profile}"
     uri="$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri > /dev/null
-    if [ $? -eq 0 ]; then
-      echo OK
-    else
-      echo FAIL
-    fi
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
+    echo ""
   done
   cd ..
   echo ""
@@ -90,12 +86,8 @@ then
     folder="${file%%.*}"
     uri="$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri > /dev/null
-    if [ $? -eq 0 ]; then
-      echo OK
-    else
-      echo FAIL
-    fi
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
+    echo ""
   done
   cd ..
 fi
