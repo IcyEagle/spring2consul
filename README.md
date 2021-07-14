@@ -69,3 +69,7 @@ These files are supposed to be used in all environments with a lower precedence
 in comparison with environment-specific files (see Spring docs to get more about configuration overriding)
 
 `ACL_TOKEN` - Consul authorization token if required
+
+## Docker hub
+
+Yes, it's published [there](https://hub.docker.com/repository/docker/icyeagle/spring2consul)!
