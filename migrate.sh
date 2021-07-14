@@ -57,14 +57,14 @@ fi
 # go to the configs directory
 cd $CONFIG_LOCATION
 
-if [[ $ACTIVE_PROFILE && ! -d "${ACTIVE_PROFILE}" ]];
+if [[ $ACTIVE_PROFILE && ! -d "$PROFILES_FOLDER_NAME/$ACTIVE_PROFILE" ]];
 then
-  echo "ERROR: directory '${ACTIVE_PROFILE}' does not exist under CONFIG_LOCATION" 1>&2
+  echo "ERROR: directory '${ACTIVE_PROFILE}' does not exist under $CONFIG_LOCATION/$PROFILES_FOLDER_NAME" 1>&2
   exit 1
 fi
 
 cd $PROFILES_FOLDER_NAME
-if [[ -z $ACTIVE_PROFILE ]]; then PROFILES=`for f in */; do echo "${f%/}"; done`; else PROFILES=($ACTIVE_PROFILE); fi
+if [[ -z $ACTIVE_PROFILE ]]; then PROFILES=`ls`; else PROFILES=$ACTIVE_PROFILE; fi
 
 for profile in $PROFILES; do
   echo "Start synchronization for profile: $profile"
@@ -73,8 +73,12 @@ for profile in $PROFILES; do
     folder="${file%%.*}-${profile}"
     uri="$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
-    echo ""
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri > /dev/null
+    if [ $? -eq 0 ]; then
+      echo OK
+    else
+      echo FAIL
+    fi
   done
   cd ..
   echo ""
@@ -89,8 +93,12 @@ then
     folder="${file%%.*}"
     uri="$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
-    echo ""
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri > /dev/null
+    if [ $? -eq 0 ]; then
+      echo OK
+    else
+      echo FAIL
+    fi
   done
   cd ..
 fi
