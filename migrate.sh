@@ -33,9 +33,6 @@ fi
 
 echo ""
 
-# go to the project root
-cd `dirname $0`
-
 if [[ -z "${CONSUL_ROOT}" ]];
 then
   echo "ERROR: CONSUL_ROOT variable must be set" 1>&2
