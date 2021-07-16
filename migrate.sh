@@ -28,7 +28,7 @@ fi
 if [[ -z "$ACL_TOKEN" ]]; then
 echo "ACL_TOKEN:                 not set"
 else
-echo "ACL_TOKEN:                 *censored*"
+echo "ACL_TOKEN:                 ${$ACL_TOKEN:0:2}******${$ACL_TOKEN: -2}"
 fi
 
 echo ""
@@ -68,9 +68,9 @@ for profile in $PROFILES; do
   cd $profile
   for file in *; do
     folder="${file%%.*}-${profile}"
-    uri="$CONSUL_ROOT$folder/$DATA_KEY"
+    uri="$API_URL$API_PREFIX$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
     echo ""
   done
   cd ..
@@ -84,9 +84,9 @@ then
   cd $SHARED_FOLDER_NAME
   for file in *; do
     folder="${file%%.*}"
-    uri="$CONSUL_ROOT$folder/$DATA_KEY"
+    uri="$API_URL$API_PREFIX$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $API_URL$API_PREFIX$uri
+    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
     echo ""
   done
   cd ..
