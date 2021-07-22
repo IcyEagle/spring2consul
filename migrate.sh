@@ -28,7 +28,7 @@ fi
 if [[ -z "$ACL_TOKEN" ]]; then
 echo "ACL_TOKEN:                 not set"
 else
-echo "ACL_TOKEN:                 ${$ACL_TOKEN:0:2}******${$ACL_TOKEN: -2}"
+echo "ACL_TOKEN:                 ${ACL_TOKEN:0:2}******${ACL_TOKEN: -2}"
 fi
 
 echo ""
