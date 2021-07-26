@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 API_URL=${API_URL}
 CONFIG_LOCATION="${CONFIG_LOCATION:-configs/}"
 ACTIVE_PROFILE=${ACTIVE_PROFILE}
@@ -70,7 +72,7 @@ for profile in $PROFILES; do
     folder="${file%%.*}-${profile}"
     uri="$API_URL$API_PREFIX$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
+    curl --fail-with-body -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
     echo ""
   done
   cd ..
@@ -86,7 +88,7 @@ then
     folder="${file%%.*}"
     uri="$API_URL$API_PREFIX$CONSUL_ROOT$folder/$DATA_KEY"
     printf "Upload $file content to $uri ... "
-    curl -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
+    curl --fail-with-body -s --request PUT --header "X-Consul-Token:$ACL_TOKEN" --data-binary @$file $uri
     echo ""
   done
   cd ..
